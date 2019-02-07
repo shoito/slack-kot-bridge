@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    Slack KoT Bridge
+
+Globals:
+    Function:
+        Timeout: 30
+
+Parameters:
+    KotRecorderGatewayUrl:
+        Type: String
+        Default: https://s2.kingtime.jp/gateway/bprgateway
+    KotUserId:
+        Type: String
+    KotPassword:
+        Type: String
+    KotClockInText:
+        Type: String
+        Default: 出社
+    KotClockOutText:
+        Type: String
+        Default: 退社
+    SlackVerificationToken:
+        Type: String
+    SlackUserId:
+        Type: String
+        Description: Not user_id. e.g. U3M5XXVLN
+    SlackWatchingChannelId:
+        Type: String
+        Description: Not attendance. e.g. C3M5XXXU6
+    SlackReportingWebhook:
+        Type: String
+
+Resources:
+    WebhookFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: bridge/
+            Handler: webhook.handler
+            Runtime: nodejs8.10
+            FunctionName: slack-kot-bridge-webhook
+            Environment:
+                Variables:
+                    KOT_RECORDER_GATEWAY_URL: !Ref KotRecorderGatewayUrl
+                    KOT_USER_ID: !Ref KotUserId
+                    KOT_USER_PASSWORD: !Ref KotPassword
+                    KOT_CLOCK_IN_TEXT: !Ref KotClockInText
+                    KOT_CLOCK_OUT_TEXT: !Ref KotClockOutText
+                    SLACK_VERIFICATION_TOKEN: !Ref SlackVerificationToken
+                    SLACK_USER_ID: !Ref SlackUserId
+                    SLACK_WATCHING_CHANNEL_ID: !Ref SlackWatchingChannelId
+                    SLACK_REPORTING_WEBHOOK: !Ref SlackReportingWebhook
+            Events:
+                Webhook:
+                    Type: Api
+                    Properties:
+                        Path: /webhook
+                        Method: POST
