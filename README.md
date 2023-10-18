@@ -15,7 +15,7 @@ Myレコーダーの出勤処理、退勤処理を実行するために、セッ
   ![display_info](docs/images/app-name.png)
 4. 出退勤のSlackメッセージを監視できるようにEvent Subscriptionsを開きEnable EventsをOnにします。
   ![events](docs/images/event-api.png)
-5. `Request URL` にAPI Gatewayのエンドポイントを入力します。
+5. `Request URL` にAPI Gatewayのエンドポイントを入力します。(e.g. https://example123.execute-api.ap-northeast-1.amazonaws.com/Prod/webhook)
 6. `Subscribe to Workspace Events` で `Add Workspace Event` から `message.channels` を追加します。
 7. Install Appを開き、ワークスペースにインストールします。
 
