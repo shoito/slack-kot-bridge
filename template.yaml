@@ -38,7 +38,7 @@ Resources:
         Properties:
             CodeUri: bridge/
             Handler: webhook.handler
-            Runtime: nodejs8.10
+            Runtime: nodejs18.x
             FunctionName: slack-kot-bridge-webhook
             Environment:
                 Variables:
